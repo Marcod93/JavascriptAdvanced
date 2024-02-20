@@ -1,5 +1,6 @@
-import * as script from './script.js';
 import '../css/style.scss';
-
-
-console.log(script);
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery';
+import 'popper.js';
+import backgroundImage from '../img/books.jpg';
