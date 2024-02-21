@@ -4,3 +4,16 @@ $blue: blue;
 $red: red;
 $green: green;
 
+
+input{
+    background-color: $white;
+    color: $black;
+    width: 50%;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+button{
+    width: 20%;
+    margin-top: 20px !important;
+}
