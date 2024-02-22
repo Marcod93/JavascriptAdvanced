@@ -1,6 +1,7 @@
 import '../css/style.scss';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import 'jquery';
 import 'popper.js';
 import backgroundImage from '../img/books.jpg';

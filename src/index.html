@@ -6,6 +6,11 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Corso Javascript Advanced</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="shortcut icon" href="asset/img/gameboy.jpg" type="image/x-icon">
+    <meta property="og:title" content="Cerca il tuo libro">
+    <meta property="og:description" content="Una raccolta di libri divisi per categoria">
+    <meta property="og:url" content="https://marcod93.github.io/progetto_Javascript_advanced/">
+    <meta property="og:type" content="website">
 </head>
 
 <body>
@@ -14,21 +19,39 @@
             <div class="jumbotron text-center">
                 <input type="text" id="input-search" placeholder="horror,fantasy,romance">
                 <br>
-                <button id="btn-search" type="button" class="btn btn-info">Cerca</button>
+                <button id="btn-search" type="button" class="btn btn-light">CERCA</button>
             </div>
         </div>
         <div class="row container-fluid d-flex justify-content-center align-items-center" id="mainDiv">
         </div>
     </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    &copy; Marco Donati 2024
+                </div>
+                <div class="col-sm-6 social">
+                    <a href="https://www.instagram.com/flikfloc/" target="_blank" rel="noopener">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/marco-donati-03a303192/" target="_blank" rel="noopener">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="https://github.com/Marcod93" target="_blank" rel="noopener">
+                        <i class="bi bi-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script>
         const apiUrl = 'https://openlibrary.org';
         const btnSearch = document.getElementById('btn-search');
         let subject = '';
-        
-       
 
         btnSearch.addEventListener('click', function () {
-            subject =  '/subjects/' + document.getElementById('input-search').value + '.json';
+            subject = '/subjects/' + document.getElementById('input-search').value + '.json';
             const mainDiv = document.getElementById('mainDiv');
 
             fetch(apiUrl + subject)
@@ -53,7 +76,7 @@
                             var newDiv = document.createElement('div');
                             var hr = document.createElement('hr');
                             var btn = document.createElement('button');
-                            btn.className = 'btn btn-info';     
+                            btn.className = 'btn btn-info';
                             btn.innerHTML = 'Info';
                             btn.addEventListener('click', function () {
                                 findDescription(element['key']);
@@ -76,7 +99,7 @@
 
                             hr.after(newAuthor);
                             newAuthor.after(btn);
-                            
+
                         });
                     }
                 })
@@ -86,8 +109,8 @@
         });
 
         function findDescription(key) {
-            fetch(apiUrl + key + '.json')  
-            .then(response => {
+            fetch(apiUrl + key + '.json')
+                .then(response => {
                     if (!response.ok) {
                         throw new Error('Errore nella richiesta API: ' + response.status);
                     }
@@ -95,21 +118,21 @@
                 })
                 .then(data => {
                     var popup = document.createElement('div');
-    popup.className = 'popup';
+                    popup.className = 'popup';
 
                     popup.innerHTML = `
-        <div class="popup-content">
-            <p>${data['description']}</p>
-            <button id="closePopupBtn">Chiudi</button>
-        </div>
-    `;
+                     <div class="popup-content">
+                         <p>${data['description']}</p>
+                         <button id="closePopupBtn" class="btn btn-danger">Chiudi</button>
+                     </div>
+                 `;
 
-    document.body.appendChild(popup);
-    
-    var closePopupBtn = document.getElementById('closePopupBtn');
-    closePopupBtn.addEventListener('click', function() {
-        popup.remove(); 
-    });
+                    document.body.appendChild(popup);
+                    var closePopupBtn = document.getElementById('closePopupBtn');
+
+                    closePopupBtn.addEventListener('click', function () {
+                        popup.remove();
+                    });
                 })
                 .catch(error => {
                     console.error('Si è verificato un errore durante la richiesta:', error.message);
