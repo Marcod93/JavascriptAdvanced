@@ -6,14 +6,53 @@
     <title>Corso Javascript Advanced</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 <script defer src="bundle.js"></script></head>
-<body>
-  
-  <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
-    <div class="jumbotron text-center">
-        <h1>Ricerca</h1>
-    </div>
-</div>
 
-</div>
+<body>
+
+    <div class="row container-fluid d-flex justify-content-center align-items-center vh-100">
+        <div class="jumbotron text-center">
+            <input type="text" id="input-search" placeholder="horror,fantasy,romance">
+            <br>
+            <button id="btn-search" type="button" class="btn btn-info">Cerca</button>
+        </div>
+    </div>
+    <script>
+        const apiUrl = 'https://openlibrary.org/subjects/';
+const btnSearch = document.getElementById('btn-search');
+let subject = '';
+
+btnSearch.addEventListener('click', function () {
+    subject = document.getElementById('input-search').value + '.json';
+
+    fetch(apiUrl + subject)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Errore nella richiesta API: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if(data['works'].length == 0){
+                alert('Non è stato trovato nessun libro di questa categoria! Prova un altra categoria');
+            }
+            else
+            {
+                data['works'].forEach(element => {
+                    
+                });
+            }
+            
+
+
+
+        })
+        .catch(error => {
+            console.error('Si è verificato un errore durante la richiesta:', error.message);
+        });
+});
+
+    </script>
 </body>
+
 </html>

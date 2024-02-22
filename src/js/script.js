@@ -1,1 +1,0 @@
-console.log('il mio script viene preso')

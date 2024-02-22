@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -8,15 +9,98 @@
 </head>
 
 <body>
-
-    <div class="row container-fluid d-flex justify-content-center align-items-center vh-100">
-        <div class="jumbotron text-center">
-            <input type="text" id="search" placeholder="horror,fantasy,romance">
-            <br>
-            <button type="button" class="btn btn-info">Cerca</button>
+    <div style="width: 90%; margin: 0 auto; max-width: 1200px;">
+        <div class="row container-fluid d-flex justify-content-center align-items-center" style="margin: 100px 0px;">
+            <div class="jumbotron text-center">
+                <input type="text" id="input-search" placeholder="horror,fantasy,romance">
+                <br>
+                <button id="btn-search" type="button" class="btn btn-info">Cerca</button>
+            </div>
+        </div>
+        <div class="row container-fluid d-flex justify-content-center align-items-center" id="mainDiv">
         </div>
     </div>
+    <script>
+        const apiUrl = 'https://openlibrary.org';
+        const btnSearch = document.getElementById('btn-search');
+        let subject = '';
+        
+        function findDescription(key) {
+            fetch(apiUrl + key + '.json')  
+            .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta API: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Si è verificato un errore durante la richiesta:', error.message);
+                });
 
+
+
+        }
+
+
+        btnSearch.addEventListener('click', function () {
+            subject =  '/subjects/' + document.getElementById('input-search').value + '.json';
+            const mainDiv = document.getElementById('mainDiv');
+
+            fetch(apiUrl + subject)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta API: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data['works'].length == 0) {
+                        alert('Non è stato trovato nessun libro di questa categoria! Prova un altra categoria');
+                    }
+                    else {
+                        if (mainDiv.childElementCount > 0) {
+                            mainDiv.innerHTML = '';
+                        }
+
+                        data['works'].forEach(element => {
+
+                            var newDiv = document.createElement('div');
+                            var hr = document.createElement('hr');
+                            var btn = document.createElement('button');
+                            btn.addEventListener('click', findDescription(element['key']));
+
+                            newDiv.className = 'col-sm-6 col-md-4 col-lg-3 newDiv';
+                            newDiv.setAttribute('data-key', element['key']);
+                            mainDiv.appendChild(newDiv);
+
+                            var newTitle = document.createElement('h2');
+                            newTitle.innerHTML = element['title'];
+                            newDiv.appendChild(newTitle);
+                            newTitle.after(hr);
+
+                            var newAuthor = document.createElement('p');
+
+                            element['authors'].forEach(author => {
+                                newAuthor.innerHTML = author['name'] + ' ';
+                            })
+
+                            hr.after(newAuthor);
+                            newAuthor.after(btn);
+                            
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Si è verificato un errore durante la richiesta:', error.message);
+                });
+        });
+
+
+    </script>
 </body>
 
 </html>
