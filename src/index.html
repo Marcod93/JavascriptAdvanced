@@ -25,25 +25,7 @@
         const btnSearch = document.getElementById('btn-search');
         let subject = '';
         
-        function findDescription(key) {
-            fetch(apiUrl + key + '.json')  
-            .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Errore nella richiesta API: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Si è verificato un errore durante la richiesta:', error.message);
-                });
-
-
-
-        }
-
+       
 
         btnSearch.addEventListener('click', function () {
             subject =  '/subjects/' + document.getElementById('input-search').value + '.json';
@@ -71,7 +53,11 @@
                             var newDiv = document.createElement('div');
                             var hr = document.createElement('hr');
                             var btn = document.createElement('button');
-                            btn.addEventListener('click', findDescription(element['key']));
+                            btn.className = 'btn btn-info';     
+                            btn.innerHTML = 'Info';
+                            btn.addEventListener('click', function () {
+                                findDescription(element['key']);
+                            });
 
                             newDiv.className = 'col-sm-6 col-md-4 col-lg-3 newDiv';
                             newDiv.setAttribute('data-key', element['key']);
@@ -98,6 +84,37 @@
                     console.error('Si è verificato un errore durante la richiesta:', error.message);
                 });
         });
+
+        function findDescription(key) {
+            fetch(apiUrl + key + '.json')  
+            .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Errore nella richiesta API: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    var popup = document.createElement('div');
+    popup.className = 'popup';
+
+                    popup.innerHTML = `
+        <div class="popup-content">
+            <p>${data['description']}</p>
+            <button id="closePopupBtn">Chiudi</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+    
+    var closePopupBtn = document.getElementById('closePopupBtn');
+    closePopupBtn.addEventListener('click', function() {
+        popup.remove(); 
+    });
+                })
+                .catch(error => {
+                    console.error('Si è verificato un errore durante la richiesta:', error.message);
+                });
+        }
 
 
     </script>

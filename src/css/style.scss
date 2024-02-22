@@ -30,3 +30,14 @@ button{
     color: black;
     text-align: center;
 }
+
+.popup{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    color: #000;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    width: 60%;
+}
