@@ -3,10 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "repository": {
+    "url": "https://github.com/Marcod93/javascriptAdvanced.git"
+  },
+  "homepage": "https://marcod93.github.io/javascriptAdvanced/",
   "scripts": {
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
-    "dev": "webpack server --mode=development"
+    "dev": "webpack server --mode=development",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +23,7 @@
     "bootstrap-icons": "^1.11.3",
     "css-loader": "^6.10.0",
     "file-loader": "^6.2.0",
+    "gh-pages": "^6.1.1",
     "html-webpack-plugin": "^5.6.0",
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
