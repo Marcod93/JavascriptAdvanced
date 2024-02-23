@@ -1,11 +1,7 @@
 $black: black;
 $white: white;
-$blue: blue;
-$red: red;
-$green: green;
 
-
-input{
+input {
     background-color: $white;
     color: $black;
     width: 50%;
@@ -13,34 +9,45 @@ input{
     padding: 10px;
 }
 
-button{
+button, .btn.btn-info {
     width: 20%;
-    margin-top: 20px !important;
+    margin-top: 20px;
 }
-
-.newDiv{
-    background-color: white;
-    border: 1px solid black;
+#divSearch{
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+#divSearch .row{
+    margin: 100px 0px;
+}
+#btn-search{
+    margin-top: 50px;
+}
+.newDiv {
+    background-color: $white;
+    border: 1px solid $black;
     border-radius: 20px 0 20px 0;
     padding: 20px;
     margin: 0 10px 10px 0;
 }
-.newDiv h2{
-    font-size: 15px !important;
-    color: black;
+
+.newDiv h2 {
+    font-size: 15px;
+    color: $black;
     text-align: center;
 }
 
-button:hover{
+button:hover {
     cursor: pointer;
 }
 
-.popup{
+.popup {
     position: fixed;
     top: 50%;
     left: 50%;
-    background-color: white;
-    color: #000;
+    background-color: $white;
+    color: $black;
     transform: translate(-50%, -50%);
     padding: 20px;
     width: 60%;
@@ -49,38 +56,32 @@ button:hover{
     font-style: italic;
 }
 
-.btn.btn.btn-info{
-    width: 100%;
-    text-align: center;
-}
-
-
 footer {
     bottom: 0;
     width: 100%;
     height: 100px; 
-    background-color: #000;
-    color: #fff;
+    background-color: $black;
+    color: $white;
     padding: 20px 0;
     margin-top: 100px;
-  }
-  
-  .social {
+}
+
+.social {
     text-align: right;
-  }
-  
-  .social i {
-    color: white;
+}
+
+.social i {
+    color: $white;
     font-size: 30px;
-  }
-  
-  .social a {
+}
+
+.social a {
     margin-right: 20px;
     color: transparent;
-  }
+}
 
-@media(max-width: 600px){
-    button, input{
+@media (max-width: 600px) {
+    button, input {
         width: 100%;
     }
 }

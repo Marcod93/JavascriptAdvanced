@@ -6,7 +6,6 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Corso Javascript Advanced</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="shortcut icon" href="asset/img/gameboy.jpg" type="image/x-icon">
     <meta property="og:title" content="Cerca il tuo libro">
     <meta property="og:description" content="Una raccolta di libri divisi per categoria">
     <meta property="og:url" content="https://marcod93.github.io/progetto_Javascript_advanced/">
@@ -14,16 +13,18 @@
 </head>
 
 <body>
-    <div style="width: 90%; margin: 0 auto; max-width: 1200px;">
-        <div class="row container-fluid d-flex justify-content-center align-items-center" style="margin: 100px 0px;">
+    <div id ="divSearch">
+        <div class="row container-fluid d-flex justify-content-center align-items-center" >
             <div class="jumbotron text-center">
                 <input type="text" id="input-search" placeholder="horror,fantasy,romance">
                 <br>
                 <button id="btn-search" type="button" class="btn btn-light">CERCA</button>
             </div>
         </div>
+
         <div class="row container-fluid d-flex justify-content-center align-items-center" id="mainDiv">
         </div>
+
     </div>
     <footer>
         <div class="container">
@@ -45,102 +46,6 @@
             </div>
         </div>
     </footer>
-    <script>
-        const apiUrl = 'https://openlibrary.org';
-        const btnSearch = document.getElementById('btn-search');
-        let subject = '';
-
-        btnSearch.addEventListener('click', function () {
-            subject = '/subjects/' + document.getElementById('input-search').value + '.json';
-            const mainDiv = document.getElementById('mainDiv');
-
-            fetch(apiUrl + subject)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Errore nella richiesta API: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    if (data['works'].length == 0) {
-                        alert('Non è stato trovato nessun libro di questa categoria! Prova un altra categoria');
-                    }
-                    else {
-                        if (mainDiv.childElementCount > 0) {
-                            mainDiv.innerHTML = '';
-                        }
-
-                        data['works'].forEach(element => {
-
-                            var newDiv = document.createElement('div');
-                            var hr = document.createElement('hr');
-                            var btn = document.createElement('button');
-                            btn.className = 'btn btn-info';
-                            btn.innerHTML = 'Info';
-                            btn.addEventListener('click', function () {
-                                findDescription(element['key']);
-                            });
-
-                            newDiv.className = 'col-sm-6 col-md-4 col-lg-3 newDiv';
-                            newDiv.setAttribute('data-key', element['key']);
-                            mainDiv.appendChild(newDiv);
-
-                            var newTitle = document.createElement('h2');
-                            newTitle.innerHTML = element['title'];
-                            newDiv.appendChild(newTitle);
-                            newTitle.after(hr);
-
-                            var newAuthor = document.createElement('p');
-
-                            element['authors'].forEach(author => {
-                                newAuthor.innerHTML = author['name'] + ' ';
-                            })
-
-                            hr.after(newAuthor);
-                            newAuthor.after(btn);
-
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Si è verificato un errore durante la richiesta:', error.message);
-                });
-        });
-
-        function findDescription(key) {
-            fetch(apiUrl + key + '.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Errore nella richiesta API: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    var popup = document.createElement('div');
-                    popup.className = 'popup';
-
-                    popup.innerHTML = `
-                     <div class="popup-content">
-                         <p>${data['description']}</p>
-                         <button id="closePopupBtn" class="btn btn-danger">Chiudi</button>
-                     </div>
-                 `;
-
-                    document.body.appendChild(popup);
-                    var closePopupBtn = document.getElementById('closePopupBtn');
-
-                    closePopupBtn.addEventListener('click', function () {
-                        popup.remove();
-                    });
-                })
-                .catch(error => {
-                    console.error('Si è verificato un errore durante la richiesta:', error.message);
-                });
-        }
-
-
-    </script>
 </body>
 
 </html>
