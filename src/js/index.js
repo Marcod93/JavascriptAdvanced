@@ -26,20 +26,19 @@ document.body.style.backgroundColor = "rgba(0, 0, 0, 0.6)";
 document.body.style.backgroundBlendMode = "overlay";
 
 btnSearch.addEventListener('click', function () {
-    subject = '/subjects/' + document.getElementById('input-search').value + '.json';
+    const subject = '/subjects/' + document.getElementById('input-search').value + '.json';
 
-    fetch(apiUrl + subject)
+    axios.get(apiUrl + subject)
         .then(response => {
-            if (!response.ok) {
+            if (!response.status === 200) {
                 throw new Error('Errore nella richiesta API: ' + response.status);
             }
-            return response.json();
+            return response.data;
         })
         .then(data => {
             if (data['works'].length == 0) {
                 alert('Non è stato trovato nessun libro di questa categoria! Prova un altra categoria');
-            }
-            else {
+            } else {
                 if (mainDiv.childElementCount > 0) {
                     mainDiv.innerHTML = '';
                 }
@@ -50,6 +49,7 @@ btnSearch.addEventListener('click', function () {
             console.error('Si è verificato un errore durante la richiesta:', error.message);
         });
 });
+
 
 function displayBooks(data) {
     data['works'].forEach(element => {
@@ -86,19 +86,19 @@ function displayBooks(data) {
 }
 
 function findDescription(key) {
-    fetch(apiUrl + key + '.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Errore nella richiesta API: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            createPopup(data['description']);
-        })
-        .catch(error => {
-            console.error('Si è verificato un errore durante la richiesta:', error.message);
-        });
+    axios.get(apiUrl + key + '.json')
+    .then(response => {
+        if (!response.status === 200) {
+            throw new Error('Errore nella richiesta API: ' + response.status);
+        }
+        return response.data;
+    })
+    .then(data => {
+        createPopup(data['description']);
+    })
+    .catch(error => {
+        console.error('Si è verificato un errore durante la richiesta:', error.message);
+    });
 }
 
 function createPopup(description) {
